@@ -4,7 +4,7 @@
 ## About
 
 Packet filter based on Telefonica's implementation of lib_netfilterqueue go bindings.
-
+BTW, It NEEDS TO BE RUN AS ROOT
 
 ## Still a WORK IN PROGRESS
 

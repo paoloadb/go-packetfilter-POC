@@ -14,6 +14,7 @@ var queueCfg = &nfqueue.QueueConfig{
 type handler struct {}
 func (h *handler) Handle(p *nfqueue.Packet) {
 	fmt.Println(p)
+	// TODO: write packet handler code here
 	p.Accept()
 }
 

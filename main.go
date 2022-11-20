@@ -12,9 +12,7 @@ var queueCfg = &nfqueue.QueueConfig{
 }
 
 type handler struct {}
-// Handle a nfqueue packet. It implements nfqueue.PacketHandler interface.
 func (h *handler) Handle(p *nfqueue.Packet) {
-	// Accept the packet
 	fmt.Println(p)
 	p.Accept()
 }

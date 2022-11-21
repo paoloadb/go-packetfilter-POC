@@ -29,18 +29,18 @@ func (h *handler) Handle(p *nfqueue.Packet) {
 func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("Must indicate if accept or drop")
-		return 1
+		os.Exit(1)
 	}
 
 	switch (os.Args[1]) {
 	case "accept":
-		fmt.Println("Filter mode: ACCEPT\n")
+		fmt.Println("Filter mode: ACCEPT")
 		how = "accept"
 	case "drop":
-		fmt.Println("Filter mode: DROP\n")
+		fmt.Println("Filter mode: DROP")
 		how = "drop"
 	default:
-		return 1
+		return
 	}
 
 	hx := &handler {}
@@ -51,4 +51,3 @@ func main() {
 
 	select{}
 }
-	

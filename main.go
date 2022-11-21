@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"github.com/Telefonica/nfqueue"
 )
+
+var how string
 
 var queueCfg = &nfqueue.QueueConfig{
 	MaxPackets: 1000,
@@ -13,12 +16,33 @@ var queueCfg = &nfqueue.QueueConfig{
 
 type handler struct {}
 func (h *handler) Handle(p *nfqueue.Packet) {
-	fmt.Println(p)
 	// TODO: write packet handler code here
-	p.Accept()
+	if how == "accept" {
+		p.Accept()
+	}
+	if how == "drop" {
+		p.Drop()
+	}
+	fmt.Println(p)
 }
 
 func main() {
+	if len(os.Args) < 2 {
+		fmt.Println("Must indicate if accept or drop")
+		return 1
+	}
+
+	switch (os.Args[1]) {
+	case "accept":
+		fmt.Println("Filter mode: ACCEPT\n")
+		how = "accept"
+	case "drop":
+		fmt.Println("Filter mode: DROP\n")
+		how = "drop"
+	default:
+		return 1
+	}
+
 	hx := &handler {}
 	q := nfqueue.NewQueue(0, hx, queueCfg)
 	go func() {

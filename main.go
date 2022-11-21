@@ -3,7 +3,12 @@ package main
 import (
 	"fmt"
 	"os"
+	"runtime"
+
+	"os/exec"
+	"log"
 	"github.com/Telefonica/nfqueue"
+
 )
 
 var how string
@@ -31,6 +36,12 @@ func main() {
 		fmt.Println("Must indicate if accept or drop")
 		os.Exit(1)
 	}
+	execHandle := exec.Command("iptables", "-A", "INPUT", "-j", "NFQUEUE", "--queue-num", "0")
+	op, err := execHandle.Output()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	fmt.Println(string(op))
 
 	switch (os.Args[1]) {
 	case "accept":
@@ -42,12 +53,10 @@ func main() {
 	default:
 		return
 	}
-
+	runtime.GOMAXPROCS(2)  // run on all 2 cores ;D
 	hx := &handler {}
 	q := nfqueue.NewQueue(0, hx, queueCfg)
-	go func() {
-		q.Start()
-	}()
+		go q.Start()
 
 	select{}
 }

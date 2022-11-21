@@ -37,7 +37,7 @@ func main() {
 		os.Exit(1)
 	}
 	execHandle := exec.Command("iptables", "-A", "INPUT", "-j", "NFQUEUE", "--queue-num", "0")
-	op, err := execHandle.Output()
+	_, err := execHandle.Output()
 	if err != nil {
 		log.Fatalln(err)
 	}

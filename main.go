@@ -41,7 +41,6 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println(string(op))
 
 	switch (os.Args[1]) {
 	case "accept":

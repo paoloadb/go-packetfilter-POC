@@ -5,10 +5,9 @@ import (
 	"os"
 	"runtime"
 
-	"os/exec"
-	"log"
 	"github.com/Telefonica/nfqueue"
-
+	"log"
+	"os/exec"
 )
 
 var how string
@@ -19,7 +18,8 @@ var queueCfg = &nfqueue.QueueConfig{
 	QueueFlags: []nfqueue.QueueFlag{nfqueue.FailOpen},
 }
 
-type handler struct {}
+type handler struct{}
+
 func (h *handler) Handle(p *nfqueue.Packet) {
 	// TODO: write packet handler code here
 	if how == "accept" {
@@ -42,7 +42,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	switch (os.Args[1]) {
+	switch os.Args[1] {
 	case "accept":
 		fmt.Println("Filter mode: ACCEPT")
 		how = "accept"
@@ -52,10 +52,10 @@ func main() {
 	default:
 		return
 	}
-	runtime.GOMAXPROCS(2)  // run on all 2 cores ;D
-	hx := &handler {}
+	runtime.GOMAXPROCS(2) // run on all 2 cores ;D
+	hx := &handler{}
 	q := nfqueue.NewQueue(0, hx, queueCfg)
-		go q.Start()
+	go q.Start()
 
-	select{}
+	select {}
 }
